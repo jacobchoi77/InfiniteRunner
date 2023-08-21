@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - RoadBlock
+  - Threat
   layers:
   - Default
   - TransparentFX

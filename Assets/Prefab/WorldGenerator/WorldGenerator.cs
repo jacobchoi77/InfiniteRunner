@@ -1,19 +1,27 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class WorldGenerator : MonoBehaviour{
-    [Header("Road Blocks")] [SerializeField] private Transform startingPoint;
-    [SerializeField] private float envMoveSpeed = 4f;
+    [Header("Road Blocks")] [SerializeField]
+    private Transform startingPoint;
+
+    [SerializeField] private float envMoveSpeed = 5f;
     [SerializeField] private Transform endPoint;
     [SerializeField] private GameObject[] roadBlocks;
     [Header("Buildings")] [SerializeField] private GameObject[] buildings;
     [SerializeField] private Transform[] buildingSpawnPoints;
     [SerializeField] private Vector2 buildingSpawnScaleRange = new Vector2(0.6f, 0.8f);
-    [Header("Street Lights")] [SerializeField] private GameObject streetLight;
+
+    [Header("Street Lights")] [SerializeField]
+    private GameObject streetLight;
+
     [SerializeField] private Transform[] streetLightSpawnPoints;
     private Vector3 moveDirection;
     [Header("Threats")] [SerializeField] private Threat[] threats;
     [SerializeField] private Transform[] lanes;
+    [SerializeField] private Vector3 occupationDetectionHalfExtend;
 
     void Start(){
         var nextBlockPosition = startingPoint.position;
@@ -36,17 +44,44 @@ public class WorldGenerator : MonoBehaviour{
 
     private IEnumerator SpawnThreatCoroutine(Threat threat){
         while (true){
-            var newThreat = Instantiate(threat, GetRandomSpawnPoint(), Quaternion.identity);
-            newThreat.GetMovementComponent().SetDestination(endPoint.position);
-            newThreat.GetMovementComponent().SetMoveDirection(moveDirection);
-            yield return new WaitForSeconds(newThreat.SpawnInterval);
+            if (GetRandomSpawnPoint(out Vector3 spawnPoint)){
+                var newThreat = Instantiate(threat, spawnPoint, Quaternion.identity);
+                newThreat.GetMovementComponent().SetDestination(endPoint.position);
+                newThreat.GetMovementComponent().SetMoveDirection(moveDirection);
+            }
+
+            yield return new WaitForSeconds(threat.SpawnInterval);
         }
     }
 
-    Vector3 GetRandomSpawnPoint(){
-        var pick = Random.Range(0, lanes.Length);
-        var lanePicked = lanes[pick].position;
-        return lanePicked + new Vector3(0, 0, startingPoint.position.z);
+    private bool GetRandomSpawnPoint(out Vector3 spawnPoint){
+        var spawnPoints = GetAvaliableSpawnPoints();
+        if (spawnPoints.Length == 0){
+            spawnPoint = new Vector3(0, 0, 0);
+            return false;
+        }
+
+        var pick = Random.Range(0, spawnPoints.Length);
+        spawnPoint = spawnPoints[pick];
+        return true;
+    }
+
+
+    private Vector3[] GetAvaliableSpawnPoints(){
+        List<Vector3> availableSpawnPoints = new List<Vector3>();
+        foreach (var spawnTransform in lanes){
+            var spawnPoint = spawnTransform.position + new Vector3(0, 0, startingPoint.position.z);
+            if (!IsPositionOccupied(spawnPoint)){
+                availableSpawnPoints.Add(spawnPoint);
+            }
+        }
+
+        return availableSpawnPoints.ToArray();
+    }
+
+    private bool IsPositionOccupied(Vector3 position){
+        var colliders = Physics.OverlapBox(position, occupationDetectionHalfExtend, Quaternion.identity);
+        return colliders.Any(col => col.gameObject.CompareTag("Threat"));
     }
 
     private GameObject SpawnNewBlock(Vector3 spawnPosition, bool isStart = false){

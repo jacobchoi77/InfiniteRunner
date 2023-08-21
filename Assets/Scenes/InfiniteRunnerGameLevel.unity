@@ -377,8 +377,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4117066573707061813, guid: 052cbb4549372674cbdeddb169d857ae, type: 3}
+      propertyPath: envMoveSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117066573707061813, guid: 052cbb4549372674cbdeddb169d857ae, type: 3}
       propertyPath: lanes.Array.size
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117066573707061813, guid: 052cbb4549372674cbdeddb169d857ae, type: 3}
+      propertyPath: threats.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4117066573707061813, guid: 052cbb4549372674cbdeddb169d857ae, type: 3}
       propertyPath: lanes.Array.data[0]
@@ -392,6 +400,26 @@ PrefabInstance:
       propertyPath: lanes.Array.data[2]
       value: 
       objectReference: {fileID: 1735462756}
+    - target: {fileID: 4117066573707061813, guid: 052cbb4549372674cbdeddb169d857ae, type: 3}
+      propertyPath: threats.Array.data[0]
+      value: 
+      objectReference: {fileID: 8549149466980233288, guid: dc1afd5120de15d4b898eeb1832418ed, type: 3}
+    - target: {fileID: 4117066573707061813, guid: 052cbb4549372674cbdeddb169d857ae, type: 3}
+      propertyPath: threats.Array.data[1]
+      value: 
+      objectReference: {fileID: 6670968226747521495, guid: b3b519b9cc2c7ae408e981e747ed5518, type: 3}
+    - target: {fileID: 4117066573707061813, guid: 052cbb4549372674cbdeddb169d857ae, type: 3}
+      propertyPath: occupationDetectionHalfExtend.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117066573707061813, guid: 052cbb4549372674cbdeddb169d857ae, type: 3}
+      propertyPath: occupationDetectionHalfExtend.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117066573707061813, guid: 052cbb4549372674cbdeddb169d857ae, type: 3}
+      propertyPath: occupationDetectionHalfExtend.z
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6718954775164163345, guid: 052cbb4549372674cbdeddb169d857ae, type: 3}
       propertyPath: m_Name
       value: WorldGenerator

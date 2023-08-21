@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public class MovementComp : MonoBehaviour{
-    [SerializeField] private float moveSpeed;
+    [SerializeField] private float moveSpeed = 5f;
     private Vector3 moveDirection;
     private Vector3 destination;
 
