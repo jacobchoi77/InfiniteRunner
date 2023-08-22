@@ -4,24 +4,23 @@ using System.Linq;
 using UnityEngine;
 
 public class WorldGenerator : MonoBehaviour{
-    [Header("Road Blocks")] [SerializeField]
-    private Transform startingPoint;
+    [Header("Road Blocks")] [SerializeField] private Transform startingPoint;
 
-    [SerializeField] private float envMoveSpeed = 5f;
     [SerializeField] private Transform endPoint;
     [SerializeField] private GameObject[] roadBlocks;
     [Header("Buildings")] [SerializeField] private GameObject[] buildings;
     [SerializeField] private Transform[] buildingSpawnPoints;
     [SerializeField] private Vector2 buildingSpawnScaleRange = new Vector2(0.6f, 0.8f);
 
-    [Header("Street Lights")] [SerializeField]
-    private GameObject streetLight;
+    [Header("Street Lights")] [SerializeField] private GameObject streetLight;
 
     [SerializeField] private Transform[] streetLightSpawnPoints;
     private Vector3 moveDirection;
     [Header("Threats")] [SerializeField] private Threat[] threats;
     [SerializeField] private Transform[] lanes;
     [SerializeField] private Vector3 occupationDetectionHalfExtend;
+
+    [Header("Pickups")] [SerializeField] private Pickup[] pickups;
 
     void Start(){
         var nextBlockPosition = startingPoint.position;
@@ -33,29 +32,36 @@ public class WorldGenerator : MonoBehaviour{
             nextBlockPosition += moveDirection * blockLength;
         }
 
-        StartSpawnThreats();
+        StartSpawnElements();
+        var newPickup = Instantiate(pickups[0], startingPoint.position, Quaternion.identity);
+        newPickup.GetComponent<MovementComp>().SetDestination(endPoint.position);
+        newPickup.GetComponent<MovementComp>().SetMoveDirection(moveDirection);
     }
 
-    private void StartSpawnThreats(){
+    private void StartSpawnElements(){
         foreach (var threat in threats){
-            StartCoroutine(SpawnThreatCoroutine(threat));
+            StartCoroutine(SpawnElementCoroutine(threat));
+        }
+
+        foreach (var pickup in pickups){
+            StartCoroutine(SpawnElementCoroutine(pickup));
         }
     }
 
-    private IEnumerator SpawnThreatCoroutine(Threat threat){
+    private IEnumerator SpawnElementCoroutine(Spawnable spawnable){
         while (true){
-            if (GetRandomSpawnPoint(out Vector3 spawnPoint)){
-                var newThreat = Instantiate(threat, spawnPoint, Quaternion.identity);
-                newThreat.GetMovementComponent().SetDestination(endPoint.position);
-                newThreat.GetMovementComponent().SetMoveDirection(moveDirection);
+            if (GetRandomSpawnPoint(out Vector3 spawnPoint, spawnable.gameObject.tag)){
+                var newSpawnable = Instantiate(spawnable, spawnPoint, Quaternion.identity);
+                newSpawnable.GetMovementComponent().SetDestination(endPoint.position);
+                newSpawnable.GetMovementComponent().SetMoveDirection(moveDirection);
             }
 
-            yield return new WaitForSeconds(threat.SpawnInterval);
+            yield return new WaitForSeconds(spawnable.SpawnInterval);
         }
     }
 
-    private bool GetRandomSpawnPoint(out Vector3 spawnPoint){
-        var spawnPoints = GetAvaliableSpawnPoints();
+    private bool GetRandomSpawnPoint(out Vector3 spawnPoint, string occupationCheckTag){
+        var spawnPoints = GetAvaliableSpawnPoints(occupationCheckTag);
         if (spawnPoints.Length == 0){
             spawnPoint = new Vector3(0, 0, 0);
             return false;
@@ -67,11 +73,11 @@ public class WorldGenerator : MonoBehaviour{
     }
 
 
-    private Vector3[] GetAvaliableSpawnPoints(){
+    private Vector3[] GetAvaliableSpawnPoints(string occupationCheckTag){
         List<Vector3> availableSpawnPoints = new List<Vector3>();
         foreach (var spawnTransform in lanes){
             var spawnPoint = spawnTransform.position + new Vector3(0, 0, startingPoint.position.z);
-            if (!IsPositionOccupied(spawnPoint)){
+            if (!IsPositionOccupied(spawnPoint, occupationCheckTag)){
                 availableSpawnPoints.Add(spawnPoint);
             }
         }
@@ -79,9 +85,9 @@ public class WorldGenerator : MonoBehaviour{
         return availableSpawnPoints.ToArray();
     }
 
-    private bool IsPositionOccupied(Vector3 position){
+    private bool IsPositionOccupied(Vector3 position, string occupationCheckTag){
         var colliders = Physics.OverlapBox(position, occupationDetectionHalfExtend, Quaternion.identity);
-        return colliders.Any(col => col.gameObject.CompareTag("Threat"));
+        return colliders.Any(col => col.gameObject.CompareTag(occupationCheckTag));
     }
 
     private GameObject SpawnNewBlock(Vector3 spawnPosition, bool isStart = false){
@@ -91,7 +97,6 @@ public class WorldGenerator : MonoBehaviour{
         newBlock.transform.position = spawnPosition;
         var moveComponent = newBlock.GetComponent<MovementComp>();
         moveComponent.SetMoveDirection(moveDirection);
-        moveComponent.SetMoveSpeed(envMoveSpeed);
         moveComponent.SetDestination(endPoint.position);
 
         SpawnBuildings(newBlock);

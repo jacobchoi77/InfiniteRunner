@@ -291,7 +291,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingPoint: {fileID: 2420678017715202975}
-  envMoveSpeed: 4
   endPoint: {fileID: 5297001735390072071}
   roadBlocks:
   - {fileID: 6482866239500419610, guid: 3451f255660be6144a9a36e7a5305e26, type: 3}
@@ -310,7 +309,15 @@ MonoBehaviour:
   - {fileID: 2939408205068702688}
   - {fileID: 7654740992790722260}
   threats:
-  - {fileID: 3116394518704108747, guid: 170f7cc9beeb947468a208bdaa1d9923, type: 3}
+  - {fileID: 8549149466980233288, guid: dc1afd5120de15d4b898eeb1832418ed, type: 3}
+  - {fileID: 6670968226747521495, guid: b3b519b9cc2c7ae408e981e747ed5518, type: 3}
+  lanes:
+  - {fileID: 6721973507407865657}
+  - {fileID: 438196638236376657}
+  - {fileID: 6479478730033495305}
+  occupationDetectionHalfExtend: {x: 0.2, y: 0.2, z: 3}
+  pickups:
+  - {fileID: 552616899098595385, guid: aa78826e162455c45bcb78215dfc45bf, type: 3}
 --- !u!54 &5604570364257839874
 Rigidbody:
   m_ObjectHideFlags: 0

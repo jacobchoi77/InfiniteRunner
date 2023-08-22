@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5475550415896719710}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -54,7 +54,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  moveSpeed: 20
+  moveSpeed: 4
   jumpHeight: 1.5
   groundCheckTransform: {fileID: 3866334126390879864}
   groundCheckMask:

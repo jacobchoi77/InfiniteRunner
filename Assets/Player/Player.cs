@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,6 +13,8 @@ public class Player : MonoBehaviour{
     [SerializeField] [Range(0, 1)] private float groundCheckRadius = 0.2f;
     private Vector3 destination;
     private Animator animator;
+    private Camera playerCamera;
+    private Vector3 playerCameraOffset;
 
     private int currentLaneIndex;
 
@@ -36,6 +39,8 @@ public class Player : MonoBehaviour{
         }
 
         animator = GetComponent<Animator>();
+        playerCamera = Camera.main;
+        playerCameraOffset = playerCamera.transform.position - transform.position;
     }
 
     private void Update(){
@@ -47,6 +52,10 @@ public class Player : MonoBehaviour{
         animator.SetBool("isOnGround", true);
         var transformX = Mathf.Lerp(transform.position.x, destination.x, Time.deltaTime * moveSpeed);
         transform.position = new Vector3(transformX, transform.position.y, transform.position.z);
+    }
+
+    private void LateUpdate(){
+        playerCamera.transform.position = transform.position + playerCameraOffset;
     }
 
     private void MovePerformed(InputAction.CallbackContext obj){

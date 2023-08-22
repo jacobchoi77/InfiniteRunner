@@ -1,9 +1,18 @@
+using System;
 using UnityEngine;
 
 public class MovementComp : MonoBehaviour{
     [SerializeField] private float moveSpeed = 5f;
-    private Vector3 moveDirection;
-    private Vector3 destination;
+    [SerializeField] private Vector3 moveDirection;
+    [SerializeField] private Vector3 destination;
+
+    private void Start(){
+        var speedController = FindObjectOfType<SpeedController>();
+        if (speedController != null){
+            speedController.onGlobalSpeedChanged += SetMoveSpeed;
+            SetMoveSpeed(speedController.GetGlobalSpeed());
+        }
+    }
 
     public void SetMoveDirection(Vector3 direction){
         moveDirection = direction;
@@ -22,5 +31,11 @@ public class MovementComp : MonoBehaviour{
 
     public void SetDestination(Vector3 newDestination){
         destination = newDestination;
+    }
+
+    public void CopyFrom(MovementComp other){
+        SetMoveSpeed(other.moveSpeed);
+        SetMoveDirection(other.moveDirection);
+        SetDestination(other.destination);
     }
 }

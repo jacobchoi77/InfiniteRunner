@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 377202424512544706}
   - component: {fileID: 4090589319377836032}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Collision
   m_TagString: Threat
   m_Icon: {fileID: 0}
@@ -64,9 +64,9 @@ GameObject:
   - component: {fileID: 5007369974806879067}
   - component: {fileID: 5889293636620506780}
   - component: {fileID: -8786333197767364404}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Threat
-  m_TagString: Untagged
+  m_TagString: Threat
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -114,3 +114,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 20
+  moveDirection: {x: 0, y: 0, z: 0}
+  destination: {x: 0, y: 0, z: 0}
