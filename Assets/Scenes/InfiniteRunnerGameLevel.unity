@@ -466,6 +466,30 @@ PrefabInstance:
       propertyPath: occupationDetectionHalfExtend.y
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 4117066573707061813, guid: 052cbb4549372674cbdeddb169d857ae, type: 3}
+      propertyPath: roadBlocks.Array.data[0].Weight
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117066573707061813, guid: 052cbb4549372674cbdeddb169d857ae, type: 3}
+      propertyPath: roadBlocks.Array.data[1].Weight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117066573707061813, guid: 052cbb4549372674cbdeddb169d857ae, type: 3}
+      propertyPath: roadBlocks.Array.data[0].RoadBlock
+      value: 
+      objectReference: {fileID: 6482866239500419610, guid: 3451f255660be6144a9a36e7a5305e26, type: 3}
+    - target: {fileID: 4117066573707061813, guid: 052cbb4549372674cbdeddb169d857ae, type: 3}
+      propertyPath: roadBlocks.Array.data[1].RoadBlock
+      value: 
+      objectReference: {fileID: 8720596763910327025, guid: 383e35d994472444d91809a43b430343, type: 3}
+    - target: {fileID: 4324291783378262478, guid: 052cbb4549372674cbdeddb169d857ae, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4324291783378262478, guid: 052cbb4549372674cbdeddb169d857ae, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.2113926
+      objectReference: {fileID: 0}
     - target: {fileID: 6718954775164163345, guid: 052cbb4549372674cbdeddb169d857ae, type: 3}
       propertyPath: m_Name
       value: WorldGenerator
@@ -630,7 +654,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5966704170958884520, guid: ebc736f1d4f326d44883027755a3d73b, type: 3}
       propertyPath: globalSpeed
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8328928291954546720, guid: ebc736f1d4f326d44883027755a3d73b, type: 3}
       propertyPath: m_Name
@@ -704,6 +728,18 @@ PrefabInstance:
     - target: {fileID: 5598754878381252513, guid: b91af26b6ce6c9c4db3244a3bdbfcd90, type: 3}
       propertyPath: jumpHeight
       value: 2.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 5598754878381252513, guid: b91af26b6ce6c9c4db3244a3bdbfcd90, type: 3}
+      propertyPath: blockageCheckHalfExtend.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5598754878381252513, guid: b91af26b6ce6c9c4db3244a3bdbfcd90, type: 3}
+      propertyPath: blockageCheckHalfExtend.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5598754878381252513, guid: b91af26b6ce6c9c4db3244a3bdbfcd90, type: 3}
+      propertyPath: blockageCheckHalfExtend.z
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 5598754878381252513, guid: b91af26b6ce6c9c4db3244a3bdbfcd90, type: 3}
       propertyPath: laneTransforms.Array.data[0]

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,6 +8,8 @@ public class Player : MonoBehaviour{
     [SerializeField] private float jumpHeight = 1.5f;
     [SerializeField] private Transform groundCheckTransform;
     [SerializeField] private LayerMask groundCheckMask;
+    [SerializeField] private Vector3 blockageCheckHalfExtend;
+    [SerializeField] private string blockageCheckTag = "Threat";
 
     [SerializeField] [Range(0, 1)] private float groundCheckRadius = 0.2f;
     private Vector3 destination;
@@ -46,10 +47,11 @@ public class Player : MonoBehaviour{
     private void Update(){
         if (!IsOnGround()){
             animator.SetBool("isOnGround", false);
-            return;
+        }
+        else{
+            animator.SetBool("isOnGround", true);
         }
 
-        animator.SetBool("isOnGround", true);
         var transformX = Mathf.Lerp(transform.position.x, destination.x, Time.deltaTime * moveSpeed);
         transform.position = new Vector3(transformX, transform.position.y, transform.position.z);
     }
@@ -59,13 +61,25 @@ public class Player : MonoBehaviour{
     }
 
     private void MovePerformed(InputAction.CallbackContext obj){
+        if (!IsOnGround()) return;
         var inputValue = obj.ReadValue<float>();
+        var goalIndex = currentLaneIndex;
         if (inputValue > 0){
-            MoveRight();
+            if (goalIndex == laneTransforms.Length - 1) return;
+            goalIndex++;
         }
         else{
-            MoveLeft();
+            if (goalIndex == 0) return;
+            goalIndex--;
         }
+
+        var goalPos = laneTransforms[goalIndex].position;
+        if (GameplayStatics.IsPositionOccupied(goalPos, blockageCheckHalfExtend, blockageCheckTag)){
+            return;
+        }
+
+        currentLaneIndex = goalIndex;
+        destination = goalPos;
     }
 
     private void JumpPerformed(InputAction.CallbackContext obj){
@@ -74,25 +88,6 @@ public class Player : MonoBehaviour{
             var jumpUpSpeed = Mathf.Sqrt(2 * jumpHeight * Physics.gravity.magnitude);
             rigidbody?.AddForce(new Vector3(0f, jumpUpSpeed, 0f), ForceMode.VelocityChange);
         }
-    }
-
-
-    private void MoveLeft(){
-        if (currentLaneIndex == 0){
-            return;
-        }
-
-        currentLaneIndex--;
-        destination = laneTransforms[currentLaneIndex].position;
-    }
-
-    private void MoveRight(){
-        if (currentLaneIndex == laneTransforms.Length - 1){
-            return;
-        }
-
-        currentLaneIndex++;
-        destination = laneTransforms[currentLaneIndex].position;
     }
 
     private bool IsOnGround(){
