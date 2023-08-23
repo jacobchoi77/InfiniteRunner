@@ -18,17 +18,19 @@ public class Pickup : Spawnable{
                 scoreKeeper.ChangeScore(scoreEffect);
             }
 
-            Destroy(gameObject);
+            PickedUpBy(other.gameObject);
         }
 
         if (other.gameObject.CompareTag("Threat")){
             var col = other.GetComponent<Collider>();
             if (col != null && !isAdjusted){
-                transform.position = col.bounds.center +
-                                     (col.bounds.extents.y +
-                                      gameObject.GetComponent<Collider>().bounds.center.y) * Vector3.up;
+                transform.position = col.bounds.center + col.bounds.extents.y * Vector3.up;
                 isAdjusted = true;
             }
         }
+    }
+
+    protected virtual void PickedUpBy(GameObject picker){
+        Destroy(gameObject);
     }
 }

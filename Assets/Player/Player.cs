@@ -19,6 +19,8 @@ public class Player : MonoBehaviour{
 
     private int currentLaneIndex;
 
+    [SerializeField] private InGameUI playerUI;
+
     private void OnEnable(){
         if (playerInput == null)
             playerInput = new PlayerInput();
@@ -32,6 +34,7 @@ public class Player : MonoBehaviour{
     private void Start(){
         playerInput.gameplay.Move.performed += MovePerformed;
         playerInput.gameplay.Jump.performed += JumpPerformed;
+        playerInput.gameplay.Pause.performed += TogglePause;
         for (int i = 0; i < laneTransforms.Length; i++){
             if (laneTransforms[i].position == transform.position){
                 currentLaneIndex = i;
@@ -42,6 +45,14 @@ public class Player : MonoBehaviour{
         animator = GetComponent<Animator>();
         playerCamera = Camera.main;
         playerCameraOffset = playerCamera.transform.position - transform.position;
+    }
+
+    private void TogglePause(InputAction.CallbackContext obj){
+        GameMode gameMode = GameplayStatics.GetGameMode();
+        if (gameMode != null && !gameMode.IsGameOver()){
+            gameMode.TogglePause();
+            playerUI.SignalPause(gameMode.IsGamePaused());
+        }
     }
 
     private void Update(){

@@ -55,12 +55,15 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   moveSpeed: 4
-  jumpHeight: 1.5
+  jumpHeight: 2.75
   groundCheckTransform: {fileID: 3866334126390879864}
   groundCheckMask:
     serializedVersion: 2
     m_Bits: 64
+  blockageCheckHalfExtend: {x: 0.5, y: 0.5, z: 0.25}
+  blockageCheckTag: Threat
   groundCheckRadius: 0.2
+  playerUI: {fileID: 0}
 --- !u!54 &5269872342958872322
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -85,7 +88,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 2
   m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!136 &720656780317515625

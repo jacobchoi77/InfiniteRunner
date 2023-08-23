@@ -9,6 +9,10 @@ public class ScoreKeeper : MonoBehaviour{
 
     public void ChangeScore(int amount){
         score += amount;
+        if (score < 0){
+            score = 0;
+        }
+
         onScoreChanged?.Invoke(score);
     }
 }
