@@ -7,6 +7,10 @@ public class ScoreKeeper : MonoBehaviour{
 
     public event OnScoreChanged onScoreChanged;
 
+    public int Score{
+        get{ return score; }
+    }
+
     public void ChangeScore(int amount){
         score += amount;
         if (score < 0){

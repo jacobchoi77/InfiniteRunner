@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class MainMenuUI : MonoBehaviour{
     [SerializeField] private UISwitcher menuSwitcher;
@@ -13,10 +14,17 @@ public class MainMenuUI : MonoBehaviour{
 
     private void Start(){
         UpdatePlayerList();
+        Debug.Log(SaveDataManager.GetSaveDir());
+        playerList.onValueChanged.AddListener(UpdateSaveActivePlayer);
+    }
+
+    private void UpdateSaveActivePlayer(int index){
+        var currentActivePlayer = playerList.options[index].text;
+        SaveDataManager.SetActivePlayer(currentActivePlayer);
     }
 
     private void UpdatePlayerList(){
-        SaveDataManager.GetSavedPlayerProfile(out List<string> players);
+        SaveDataManager.GetSavedPlayerProfiles(out List<string> players);
         playerList.ClearOptions();
         playerList.AddOptions(players);
     }
@@ -50,5 +58,13 @@ public class MainMenuUI : MonoBehaviour{
         SaveDataManager.SavePlayerProfile(newPlayerName);
         UpdatePlayerList();
         BackToMainMenu();
+    }
+
+    public void DeleteSelectedPlayerProfile(){
+        if (playerList.options.Count != 0){
+            var playerName = playerList.options[playerList.value].text;
+            SaveDataManager.DeletePlayerProfile(playerName);
+            UpdatePlayerList();
+        }
     }
 }

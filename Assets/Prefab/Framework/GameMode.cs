@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,8 +16,14 @@ public class GameMode : MonoBehaviour{
 
     public void GameOver(){
         SetGamePaused(true);
+        UpdateLeadboard();
         isGameOver = true;
         onGameOver?.Invoke();
+    }
+
+    private void UpdateLeadboard(){
+        var score = GetComponent<ScoreKeeper>().Score;
+        SaveDataManager.SaveNewLeaderBoardEntry(SaveDataManager.GetActivePlayerName(), DateTime.Now, score);
     }
 
     public void SetGamePaused(bool isPaused){
