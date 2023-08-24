@@ -6,12 +6,16 @@ public class Player : MonoBehaviour{
     [SerializeField] private Transform[] laneTransforms;
     [SerializeField] private float moveSpeed = 20.0f;
     [SerializeField] private float jumpHeight = 1.5f;
+
     [SerializeField] private Transform groundCheckTransform;
     [SerializeField] private LayerMask groundCheckMask;
     [SerializeField] private Vector3 blockageCheckHalfExtend;
     [SerializeField] private string blockageCheckTag = "Threat";
 
     [SerializeField] [Range(0, 1)] private float groundCheckRadius = 0.2f;
+    [Header("Audio")] [SerializeField] private AudioClip jumpAudioClip;
+    [SerializeField] private AudioClip moveAudioClip;
+    [SerializeField] private AudioSource actionAudioSrc;
     private Vector3 destination;
     private Animator animator;
     private Camera playerCamera;
@@ -89,6 +93,8 @@ public class Player : MonoBehaviour{
             return;
         }
 
+        actionAudioSrc.clip = moveAudioClip;
+        actionAudioSrc.Play();
         currentLaneIndex = goalIndex;
         destination = goalPos;
     }
@@ -98,6 +104,8 @@ public class Player : MonoBehaviour{
             var rigidbody = GetComponent<Rigidbody>();
             var jumpUpSpeed = Mathf.Sqrt(2 * jumpHeight * Physics.gravity.magnitude);
             rigidbody?.AddForce(new Vector3(0f, jumpUpSpeed, 0f), ForceMode.VelocityChange);
+            actionAudioSrc.clip = jumpAudioClip;
+            actionAudioSrc.Play();
         }
     }
 

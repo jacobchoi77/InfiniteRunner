@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4729066750199640547}
   - component: {fileID: -2944539668083945039}
   - component: {fileID: 8805529684143315762}
+  - component: {fileID: 6593341846976200767}
   m_Layer: 0
   m_Name: FailZone
   m_TagString: Untagged
@@ -66,3 +67,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6593341846976200767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8434772131928735009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9071412ea840e4f45aabfc1a11e3e721, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggerTag: Player
+  audioPlayerPrefab: {fileID: 2717664274291504493, guid: fd3f0d8cc09405e4982d725268d2ab46, type: 3}
+  audioToPlay: {fileID: 8300000, guid: d076fdc5ee2ac69458a59d416846085d, type: 3}
+  volume: 0.3
+  pitch: 0.3

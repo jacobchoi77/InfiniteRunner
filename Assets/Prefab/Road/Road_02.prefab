@@ -144,6 +144,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6593341846976200767, guid: 7174391f9193781428a8069e62b67f82, type: 3}
+      propertyPath: audioToPlay
+      value: 
+      objectReference: {fileID: 8300000, guid: 3f615ef3b71bbf246b2fa31e888ce551, type: 3}
     - target: {fileID: 8434772131928735009, guid: 7174391f9193781428a8069e62b67f82, type: 3}
       propertyPath: m_Name
       value: FailZone

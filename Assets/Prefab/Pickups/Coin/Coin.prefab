@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1460250208962520045}
   - component: {fileID: 6032727959865064888}
   - component: {fileID: 7565365194829690284}
+  - component: {fileID: 12161134715171469}
   m_Layer: 0
   m_Name: Coin
   m_TagString: Pickup
@@ -131,6 +132,23 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &12161134715171469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8182538043677853641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9071412ea840e4f45aabfc1a11e3e721, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggerTag: Player
+  audioPlayerPrefab: {fileID: 2717664274291504493, guid: fd3f0d8cc09405e4982d725268d2ab46, type: 3}
+  audioToPlay: {fileID: 8300000, guid: e2fc3198d15065f44be8587e218c7fb9, type: 3}
+  volume: 0.3
+  pitch: 0.3
 --- !u!1001 &1067972825122332618
 PrefabInstance:
   m_ObjectHideFlags: 0
