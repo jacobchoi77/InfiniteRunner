@@ -24,12 +24,7 @@ public class InGameUI : MonoBehaviour{
     }
 
     public void SignalPause(bool isGamePaused){
-        if (isGamePaused){
-            menuSwitcher.SetActiveUI(pauseUI);
-        }
-        else{
-            menuSwitcher.SetActiveUI(inGameUI);
-        }
+        menuSwitcher.SetActiveUI(isGamePaused ? pauseUI : inGameUI);
     }
 
     public void ResumeGame(){

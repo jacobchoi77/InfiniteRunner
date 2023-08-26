@@ -24,10 +24,10 @@ public class Player : MonoBehaviour{
     private int currentLaneIndex;
 
     [SerializeField] private InGameUI playerUI;
+    private static readonly int OnGround = Animator.StringToHash("isOnGround");
 
     private void OnEnable(){
-        if (playerInput == null)
-            playerInput = new PlayerInput();
+        playerInput ??= new PlayerInput();
         playerInput.Enable();
     }
 
@@ -48,11 +48,11 @@ public class Player : MonoBehaviour{
 
         animator = GetComponent<Animator>();
         playerCamera = Camera.main;
-        playerCameraOffset = playerCamera.transform.position - transform.position;
+        if (playerCamera != null) playerCameraOffset = playerCamera.transform.position - transform.position;
     }
 
     private void TogglePause(InputAction.CallbackContext obj){
-        GameMode gameMode = GameplayStatics.GetGameMode();
+        var gameMode = GameplayStatics.GetGameMode();
         if (playerInput.gameplay.enabled){
             playerInput.gameplay.Disable();
         }
@@ -67,15 +67,11 @@ public class Player : MonoBehaviour{
     }
 
     private void Update(){
-        if (!IsOnGround()){
-            animator.SetBool("isOnGround", false);
-        }
-        else{
-            animator.SetBool("isOnGround", true);
-        }
-
-        var transformX = Mathf.Lerp(transform.position.x, destination.x, Time.deltaTime * moveSpeed);
-        transform.position = new Vector3(transformX, transform.position.y, transform.position.z);
+        animator.SetBool(OnGround, IsOnGround());
+        var position = transform.position;
+        var transformX = Mathf.Lerp(position.x, destination.x, Time.deltaTime * moveSpeed);
+        position = new Vector3(transformX, position.y, position.z);
+        transform.position = position;
     }
 
     private void LateUpdate(){
@@ -108,9 +104,10 @@ public class Player : MonoBehaviour{
 
     private void JumpPerformed(InputAction.CallbackContext obj){
         if (IsOnGround()){
-            var rigidbody = GetComponent<Rigidbody>();
+            var rb = GetComponent<Rigidbody>();
+            if (rb == null) return;
             var jumpUpSpeed = Mathf.Sqrt(2 * jumpHeight * Physics.gravity.magnitude);
-            rigidbody?.AddForce(new Vector3(0f, jumpUpSpeed, 0f), ForceMode.VelocityChange);
+            rb.AddForce(new Vector3(0f, jumpUpSpeed, 0f), ForceMode.VelocityChange);
             actionAudioSrc.clip = jumpAudioClip;
             actionAudioSrc.Play();
         }
