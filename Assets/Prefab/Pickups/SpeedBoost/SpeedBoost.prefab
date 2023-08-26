@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87dcc93ad78b89741b86ffe338537c82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnInterval: 3.32
+  spawnInterval: 2
   movementComp: {fileID: -7674051216234585743}
   scoreEffect: 0
   speedEffect: 10
@@ -88,8 +88,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.37709928, y: 1.4839096, z: 1.0851831}
-  m_Center: {x: -0.0063784122, y: 0.059096575, z: 0.029230595}
+  m_Size: {x: 0.37709928, y: 1.5849128, z: 1.1510112}
+  m_Center: {x: -0.0063784122, y: 1.1308948, z: -0.003683418}
 --- !u!54 &7565365194829690284
 Rigidbody:
   m_ObjectHideFlags: 0

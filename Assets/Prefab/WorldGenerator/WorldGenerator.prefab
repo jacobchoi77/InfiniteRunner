@@ -276,7 +276,7 @@ Transform:
   - {fileID: 5297001735390072071}
   - {fileID: 6223367360670600422}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4117066573707061813
 MonoBehaviour:
@@ -293,10 +293,10 @@ MonoBehaviour:
   startingPoint: {fileID: 2420678017715202975}
   endPoint: {fileID: 5297001735390072071}
   roadBlocks:
-  - RoadBlock: {fileID: 6482866239500419610, guid: 3451f255660be6144a9a36e7a5305e26, type: 3}
-    Weight: 8
-  - RoadBlock: {fileID: 8720596763910327025, guid: 383e35d994472444d91809a43b430343, type: 3}
-    Weight: 1
+  - roadBlock: {fileID: 6482866239500419610, guid: 3451f255660be6144a9a36e7a5305e26, type: 3}
+    weight: 6
+  - roadBlock: {fileID: 8720596763910327025, guid: 383e35d994472444d91809a43b430343, type: 3}
+    weight: 4
   buildings:
   - {fileID: 919132149155446097, guid: 7d0cacf87e40c9742a036b91f70b881d, type: 3}
   - {fileID: 919132149155446097, guid: 3557df1b62af06240bd95d7a3ca8a202, type: 3}

@@ -3,27 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class WorldGenerator : MonoBehaviour{
     [Serializable]
-    public struct RoadSpawnDefination{
-        public GameObject RoadBlock;
-        public float Weight;
+    public struct RoadSpawnDefinition{
+        public GameObject roadBlock;
+        public float weight;
     }
 
-    [Header("Road Blocks")] [SerializeField]
-    private Transform startingPoint;
-
+    [Header("Road Blocks")] [SerializeField] private Transform startingPoint;
     private float roadWeightTotalWeight;
     [SerializeField] private Transform endPoint;
-    [SerializeField] private RoadSpawnDefination[] roadBlocks;
+    [SerializeField] private RoadSpawnDefinition[] roadBlocks;
     [Header("Buildings")] [SerializeField] private GameObject[] buildings;
     [SerializeField] private Transform[] buildingSpawnPoints;
     [SerializeField] private Vector2 buildingSpawnScaleRange = new Vector2(0.6f, 0.8f);
 
-    [Header("Street Lights")] [SerializeField]
-    private GameObject streetLight;
+    [Header("Street Lights")] [SerializeField] private GameObject streetLight;
 
     [SerializeField] private Transform[] streetLightSpawnPoints;
     private Vector3 moveDirection;
@@ -33,29 +31,30 @@ public class WorldGenerator : MonoBehaviour{
 
     [Header("Pickups")] [SerializeField] private Pickup[] pickups;
 
-    void Start(){
-        roadWeightTotalWeight = roadBlocks.Sum(roadBlock => roadBlock.Weight);
+    private void Start(){
+        roadWeightTotalWeight = roadBlocks.Sum(roadBlock => roadBlock.weight);
         var nextBlockPosition = startingPoint.position;
         var endPointDistance = Vector3.Distance(startingPoint.position, endPoint.position);
         moveDirection = (endPoint.position - startingPoint.position).normalized;
         while (Vector3.Distance(startingPoint.position, nextBlockPosition) < endPointDistance){
-            var pickedBlock = roadBlocks[0].RoadBlock;
-            var newBlock = Instantiate(pickedBlock);
-            newBlock.transform.position = nextBlockPosition;
-            var moveComponent = newBlock.GetComponent<MovementComp>();
-            moveComponent.SetMoveDirection(moveDirection);
-            moveComponent.SetDestination(endPoint.position);
-
-            SpawnBuildings(newBlock);
-            SpawnStreetLights(newBlock);
-            var blockLength = newBlock.GetComponent<Renderer>().bounds.size.z;
+            var newRoadBlock = SpawnRoadBlock(nextBlockPosition);
+            SpawnBuildings(newRoadBlock);
+            SpawnStreetLights(newRoadBlock);
+            var blockLength = newRoadBlock.GetComponent<Renderer>().bounds.size.z;
             nextBlockPosition += moveDirection * blockLength;
         }
 
         StartSpawnElements();
-        var newPickup = Instantiate(pickups[0], startingPoint.position, Quaternion.identity);
-        newPickup.GetComponent<MovementComp>().SetDestination(endPoint.position);
-        newPickup.GetComponent<MovementComp>().SetMoveDirection(moveDirection);
+    }
+
+    private GameObject SpawnRoadBlock(Vector3 blockPosition){
+        var pickedBlock = roadBlocks[0].roadBlock;
+        var newBlock = Instantiate(pickedBlock);
+        newBlock.transform.position = blockPosition;
+        var moveComponent = newBlock.GetComponent<MovementComp>();
+        moveComponent.SetMoveDirection(moveDirection);
+        moveComponent.SetDestination(endPoint.position);
+        return newBlock;
     }
 
     private void StartSpawnElements(){
@@ -105,7 +104,7 @@ public class WorldGenerator : MonoBehaviour{
         return availableSpawnPoints.ToArray();
     }
 
-    private GameObject SpawnNewBlock(Vector3 spawnPosition){
+    private GameObject SuppleNewBlock(Vector3 spawnPosition){
         var pickedBlock = GetRandomBlockToSpawn();
         var newBlock = Instantiate(pickedBlock);
         newBlock.transform.position = spawnPosition;
@@ -123,14 +122,14 @@ public class WorldGenerator : MonoBehaviour{
         var totalWeightSoFar = 0f;
         var pick = 0;
         for (var i = 0; i < roadBlocks.Length; i++){
-            totalWeightSoFar += roadBlocks[i].Weight;
+            totalWeightSoFar += roadBlocks[i].weight;
             if (pickWeight < totalWeightSoFar){
                 pick = i;
                 break;
             }
         }
 
-        return roadBlocks[pick].RoadBlock;
+        return roadBlocks[pick].roadBlock;
     }
 
     private void SpawnStreetLights(GameObject parentBlock){
@@ -162,7 +161,7 @@ public class WorldGenerator : MonoBehaviour{
 
     private void OnTriggerExit(Collider other){
         if (other.gameObject != null && other.gameObject.CompareTag("RoadBlock")){
-            var newBlock = SpawnNewBlock(other.transform.position);
+            var newBlock = SuppleNewBlock(other.transform.position);
             var newBlockHalfWidth = newBlock.GetComponent<Renderer>().bounds.size.z / 2f;
             var previousBlockHalfWidth = other.GetComponent<Renderer>().bounds.size.z / 2f;
             var newBlockSpawnOffset = -(newBlockHalfWidth + previousBlockHalfWidth) * moveDirection;
