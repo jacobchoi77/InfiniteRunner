@@ -8,6 +8,12 @@ onBoardingDoNotAskAgain = true
 showPackageIndexes = false
 showStatusBar = false
 scopes = {
+	"last_search.3BE40471" = "ref:Assets/Audio/trashcanHit.wav"
+	"OpenInspectorPreview.3BE40471" = "0"
+	"currentGroup.3BE40471" = "all"
+	"last_search.E8DA15E5" = ""
+	"OpenInspectorPreview.E8DA15E5" = "0"
+	"currentGroup.E8DA15E5" = "all"
 }
 providers = {
 	performance = {
@@ -59,6 +65,7 @@ providers = {
 objectSelectors = {
 }
 recentSearches = [
+	"ref:Assets/Audio/trashcanHit.wav"
 ]
 searchItemFavorites = [
 ]

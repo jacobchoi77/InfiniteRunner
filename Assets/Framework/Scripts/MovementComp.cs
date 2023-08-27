@@ -21,7 +21,7 @@ public class MovementComp : MonoBehaviour{
     void Update(){
         transform.position += moveDirection * (moveSpeed * Time.deltaTime);
         if (Vector3.Dot((destination - transform.position).normalized, moveDirection) < 0){
-            Destroy(gameObject, 2f);
+            Destroy(gameObject, 1f);
         }
     }
 

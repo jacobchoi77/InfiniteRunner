@@ -22,6 +22,4 @@ public class Train : MonoBehaviour{
             newSegment.GetMovementComponent().CopyFrom(threat.GetMovementComponent());
         }
     }
-    
-    
 }
